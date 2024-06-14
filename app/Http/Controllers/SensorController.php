@@ -7,21 +7,12 @@ use App\Models\HumidityAir;
 use App\Models\HumiditySoil;
 use App\Models\Npk;
 use App\Models\Temperature;
-use App\Service\MqttService;
-use PhpMqtt\Client\MqttClient;
-use PhpMqtt\Client\ConnectionSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class SensorController extends Controller
 {
-    protected $mqttService;
-
-    public function __construct(MqttService $mqttService)
-    {
-        $this->mqttService = $mqttService;
-    }
 
     public function index(){
         $now = Carbon::now()->format('Y-m-d');
