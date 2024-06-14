@@ -235,6 +235,7 @@ return [
         'Helper' => \App\Helper\Helper::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'MQTT' => \PhpMqtt\Client\Facades\MQTT::class,
     ],
 
 ];

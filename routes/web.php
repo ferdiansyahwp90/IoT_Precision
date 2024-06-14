@@ -18,6 +18,7 @@ use App\Http\Controllers\ChartController;
 */
 
 Route::get('/', [SiteController::class, 'index'])->name('home');
+Route::get('/publish-sensor-data', [SensorController::class, 'publishSensorData']);
 
 Route::middleware(['auth',  'verified'])->group(function () {
     // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

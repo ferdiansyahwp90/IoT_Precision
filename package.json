@@ -16,6 +16,7 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
-        "chart.js": "^4.4.3"
+        "chart.js": "^4.4.3",
+        "mqtt": "^5.7.0"
     }
 }
