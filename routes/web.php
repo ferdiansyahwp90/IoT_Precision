@@ -5,7 +5,6 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SensorController;
-use App\Http\Controllers\ChartController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,7 +31,4 @@ Route::middleware(['auth',  'verified'])->group(function () {
 
     //Sensor controller
     Route::resource('dashboard', SensorController::class);
-
-    //Chart
-    Route::get('/chart', [ChartController::class, 'index']);
 });

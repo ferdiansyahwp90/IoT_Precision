@@ -67,6 +67,41 @@ class SensorController extends Controller
             ->where('category','potassium')
             ->orderBy('created_at', 'desc')
             ->first();
+        $chartNpk = Npk::whereDate('created_at', $now)
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get()
+            ->groupBy('category');
+
+        $npk_chart_label = [];
+        $npk_chart_data = [];
+        foreach ($chartNpk as $key => $value) {
+            $npk_chart_label[] = $key;
+            $npk_chart_data[] = $value->average('value');
+        }
+
+
+        $humidity_soil_chart_label = [];
+        $humidity_soil_chart_data = [];
+        foreach ($humidity_soil as $key => $value) {
+            $humidity_soil_chart_label[] = $value->created_at->format('H:i');
+            $humidity_soil_chart_data[] = $value->value;
+        }
+
+
+        $humidity_air_chart_label = [];
+        $humidity_air_chart_data = [];
+        foreach ($humidity_air as $key => $value) {
+            $humidity_air_chart_label[] = $value->created_at->format('H:i');
+            $humidity_air_chart_data[] = $value->value;
+        }
+
+        $temperature_chart_label = [];
+        $temperature_chart_data = [];
+        foreach ($temperature as $key => $value) {
+            $temperature_chart_label[] = $value->created_at->format('H:i');
+            $temperature_chart_data[] = $value->value;
+        }
         
         $data = [
             'humidity_air'=>$humidity_air,
@@ -80,8 +115,27 @@ class SensorController extends Controller
             'phosphorous'=>$phosphorous,
             'potassium'=>$potassium,
         ];
+
+        $chart = [
+            'npk' => [
+                'label' => json_encode($npk_chart_label),
+                'data' => json_encode($npk_chart_data)
+            ],
+            'humidity_soil' => [
+                'label' => json_encode($humidity_soil_chart_label),
+                'data' => json_encode($humidity_soil_chart_data)
+            ],
+            'humidity_air' => [
+                'label' => json_encode($humidity_air_chart_label),
+                'data' => json_encode($humidity_air_chart_data)
+            ],
+            'temperature' => [
+                'label' => json_encode($temperature_chart_label),
+                'data' => json_encode($temperature_chart_data)
+            ]
+        ];
         
-        return view('pages.dashboard.index', compact('data'));
+        return view('pages.dashboard.index', compact('data', 'chart'));
     }
 
     public function publishSensorData()
