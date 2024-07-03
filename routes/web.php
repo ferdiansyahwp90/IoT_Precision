@@ -5,6 +5,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SensorController;
+use App\Http\Controllers\ToolsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,7 +29,9 @@ Route::middleware(['auth',  'verified'])->group(function () {
     Route::post('/npk', [DashboardController::class, 'store'])->name('npk.store');
     Route::post('/profil', [UserController::class, 'updateProfile']);
     Route::resource('user', UserController::class);
+    Route::resource('tools', ToolsController::class);
 
     //Sensor controller
     Route::resource('dashboard', SensorController::class);
+
 });
