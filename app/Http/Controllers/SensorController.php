@@ -201,8 +201,17 @@ class SensorController extends Controller
     {
         // Ambil data sensor dari request
         $humiditySoilFirst = HumiditySoil::orderBy('created_at', 'DESC')->first();
+        $npknitrogen = Npk::where('category', 'nitrogen')
+                  ->orderBy('created_at', 'DESC')
+                  ->first();
+        $npkphosphorous = Npk::where('category', 'phosphorous')
+                  ->orderBy('created_at', 'DESC')
+                  ->first();         
+        $npkpotassium = Npk::where('category', 'potassium')
+                  ->orderBy('created_at', 'DESC')
+                  ->first();
 
-        // dd($humiditySoilFirst);
+        // dd($humiditySoilFirst);/
 
         // Logika untuk mengatur pompa berdasarkan nilai kelembapan tanah
         if ($humiditySoilFirst->value < 30) {
@@ -220,5 +229,25 @@ class SensorController extends Controller
                 'data' => $humiditySoilFirst
             ], Response::HTTP_ACCEPTED);
         }
+
+        // Logika untuk mengatur pompa berhasarkan nilai npk
+        if (($npknitrogen->value < 60) || ($npkphosphorous->value < 60) || ($npkpotassium->value < 60)) {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'on',
+                'data' => [
+                    'nitrogen' => $npknitrogen,
+                    'phosphorous' => $npkphosphorous,
+                    'potassium' => $npkpotassium
+                ]
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'status' => 'success',
+                'message' => 'off',
+                'data' => null
+            ], Response::HTTP_ACCEPTED);
+        }
+        
     }
 }
